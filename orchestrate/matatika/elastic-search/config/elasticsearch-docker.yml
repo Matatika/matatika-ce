@@ -1,0 +1,25 @@
+cluster.name: "docker-cluster"
+network.host: 0.0.0.0
+
+xpack.security.enabled: true
+xpack.security.http.ssl.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+
+# match appbase only
+#http.cors.allow-origin: /https?:\/\/(.+)?.appbase\.io(:[0-9]+)?/
+# match anything
+http.cors.allow-origin: /(.+)?/
+http.cors.enabled: true
+http.cors.allow-headers: x-search-filters,x-search-query,x-search-state,X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+http.cors.allow-credentials: true
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
+
+# By default the low water mark threshold will stop the node from starting
+# if your dev machine doesn't have at least 15% free. This is generally
+# less of a mission critical threshold when in Docker on a dev machine
+cluster.routing.allocation.disk.threshold_enabled: false

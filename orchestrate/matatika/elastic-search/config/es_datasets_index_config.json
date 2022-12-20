@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "dynamic": "true",
+    "_source": {
+      "enabled": "true"
+    },
+    "properties": {
+      "id": {
+		"type": "text",
+			"fields": {
+				"keyword": {
+					"type": "keyword",
+					"ignore_above": 256
+				}
+			}
+	  },
+      "title": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "lastModified": {
+        "type": "date",
+        "format": "strict_date_optional_time_nanos"
+      },
+      "lastModifiedMillisDay": {
+        "type": "integer"
+      },
+      "text_vector": {
+        "type": "dense_vector",
+        "dims": 768
+      }
+    }
+  }
+}

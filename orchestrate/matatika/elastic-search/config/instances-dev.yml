@@ -1,0 +1,8 @@
+# elastic search instances
+instances:
+  - name: 'search'
+    dns: [ 'search', 'localhost' ]
+  - name: 'search02'
+    dns: [ 'search02', 'localhost' ]
+  - name: 'logstash'
+    dns: [ 'logstash', 'logstash.local' ]
