@@ -23,9 +23,10 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - MATATIKA_DATAFLOW_NETWORK=matatika
-      - MATATIKA_DATAFLOW_VOLUME_MOUNTS=project:/project
+      - MATATIKA_DATAFLOW_VOLUME_MOUNTS=workspaces:/workspaces
       - ELASTICSEARCH_HOST=search
-      - MATATIKA_WORKSPACE_DIRS=/project
+      - MATATIKA_WORKSPACES_HOME=/workspaces
+      - MATATIKA_PLUGINS_HOME=file:/plugins
       # Generate a 256-bit (32-char) secret key and set it here. This is used to generate access tokens for the Matatika App and API.
       - MATATIKA_AUTH_LOCAL_SECRET=matatikaauthlocalsecret_changeme
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
@@ -41,7 +42,8 @@ services:
         /docker-entrypoint.sh server"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - project:/project
+      - workspaces:/workspaces
+      - plugins:/plugins
 
   app:
     user: root
@@ -178,12 +180,19 @@ volumes:
   es-data:
     driver: local
   es-certs:
-  project:
-    name: project
+  workspaces:
+    name: workspaces
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}
+      device: ${PWD}/workspaces
+      o: bind
+  plugins:
+    name: plugins
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/plugins
       o: bind
 
 networks:

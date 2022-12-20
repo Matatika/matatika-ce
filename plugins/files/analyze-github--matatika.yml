@@ -1,0 +1,15 @@
+name: analyze-github
+namespace: tap_github
+label: Github Insights
+logo_url: /assets/images/datasource/tap-github.png
+description: |-
+  Instant insights on commits, issues and PRs from Github.
+update:
+  "*.yml": true
+variant: matatika
+repo: https://github.com/Matatika/analyze-github
+pip_url: git+https://github.com/Matatika/analyze-github
+requires:
+  extractors:
+    - name: tap-github
+      variant: meltanolabs
