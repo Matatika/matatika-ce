@@ -1,4 +1,4 @@
-# matatika-lab
+# matatika-ce
 Community Edition of the Matatika Data Platform
 
 1. Install
