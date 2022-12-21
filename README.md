@@ -15,6 +15,7 @@ Matatika is a cloud-native data platform. This Community Edition is an all in on
 
 ## How to get started
 
+By installing this package you agree to the terms of our [community license](https://github.com/Matatika/matatika-docs/blob/master/CE-Licence.md).
 
 ***NB - The beta release of the Community Edition is currently only developed to work with Linux and macOS***
 
