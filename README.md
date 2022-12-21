@@ -1,5 +1,20 @@
-# matatika-ce
-Community Edition of the Matatika Data Platform
+# Community Edition of the Matatika Platform (Beta!)
+
+Maintained by: [Matatika](https://www.matatika.com/)
+
+[Documentation](https://www.matatika.com/docs/) and [API reference](https://www.matatika.com/docs/api/)
+
+Where to get help: the [Matatika Community Slack](https://join.slack.com/t/matatika/shared_invite/zt-19n1bfokx-F31DNitTpSxWCFO2aFlgxg)
+
+
+## What is Matatika Community Edition?
+
+Matatika is a cloud-native data platform. This Community Edition is an all in one docker compose solution, and has been provided to help you develop and run your solution with all of the power of Matatika and Meltano.
+
+***NB - this is a beta release!  This edition is currently ready for beta users and would love your feedback.***
+
+
+## How to get started
 
 1. Install
 
