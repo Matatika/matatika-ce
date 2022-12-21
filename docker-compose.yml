@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   catalog:
-    user: root
+    user: $userID:$groupID
     image: matatika/catalog
     ports:
       - '8080:8080'

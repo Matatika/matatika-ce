@@ -5,9 +5,12 @@ Community Edition of the Matatika Data Platform
 
 ```
 git clone https://github.com/Matatika/matatika-ce
+cd matatika-ce
+export userID=$(id -u); export groupID=$(id -g)
 docker-compose up
 ```
-
+In order to persist the userID and groupID variables, please add those to your .bashrc profile.
+To always be up to date with our latest changes, make sure that you run git pull to update your code from matatika-ce repository.
 
 2. Register, Login and create workspace
 
