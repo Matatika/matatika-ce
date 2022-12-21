@@ -30,7 +30,7 @@ docker-compose up
 In order to persist the userID and groupID variables, please add those to your .bashrc profile.
 To always be up to date with our latest changes, make sure that you run git pull to update your code from matatika-ce repository.
 
-2. Register, Login and create workspace
+2. Register, login and create your first workspace
 
 https://localhost:3443
 
