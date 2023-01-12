@@ -9,9 +9,12 @@ Where to get help: the [Matatika Community Slack](https://join.slack.com/t/matat
 
 ## What is Matatika Community Edition?
 
-Matatika is a cloud-native data platform. This Community Edition is an all in one docker compose solution, and has been provided to help you develop and run your solution with all of the power of Matatika and Meltano.
+[Matatika](https://www.matatika.com/) is a cloud-native data platform with CLI, API, and UI access for all.  We have integrated dbt, Meltano, and other open source technologies into a ready-to-run modern data stack.  [Read more](https://www.matatika.com/docs/concepts). 
+
+This Community Edition is an all in one docker compose solution, and has been provided to help companies run their own solution where BOTH data engineers manage everything as code and data analysts manage data through a UI.
 
 ***NB - this is a beta release!  This edition is currently ready for beta users and would love your feedback.***
+
 
 ## How to get started
 
