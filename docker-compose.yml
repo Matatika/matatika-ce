@@ -112,6 +112,7 @@ services:
 
   # Short lived container that creates the certificates
   search-createcerts:
+    container_name: search-createcerts
     image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
@@ -157,6 +158,7 @@ services:
 
   db:
     image: postgres:11
+    container_name: db
     volumes:
       - matatika-catalog_postgres:/var/lib/postgresql/data
     environment:
