@@ -177,14 +177,12 @@ volumes:
     driver: local
   es-certs:
   workspaces:
-    name: workspaces
     driver: local
     driver_opts:
       type: none
       device: ${PWD}/workspaces
       o: bind
   plugins:
-    name: plugins
     driver: local
     driver_opts:
       type: none
