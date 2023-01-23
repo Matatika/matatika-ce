@@ -33,13 +33,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    entrypoint: >
-      /bin/bash -c "
-        wget --no-check-certificate -P /tmp/ https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvf /tmp/docker-latest.tgz --directory /tmp/ && mv /tmp/docker/docker /usr/local/bin;
-        echo 'Docker installed'
-        /docker-entrypoint.sh server"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - workspaces:/workspaces
       - plugins:/plugins
 
