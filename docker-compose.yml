@@ -15,15 +15,13 @@ services:
     tty: true
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
-      - ACTIVE_PROFILES=default,local,distribution
+      - ACTIVE_PROFILES=default,distribution
       - "JAVA_OPTS=-XX:MaxDirectMemorySize=1G -XX:MaxMetaspaceSize=240234K -XX:ReservedCodeCacheSize=240M -Xss1M -Xms512m -Xmx1040584K"
       - SPRING_H2_CONSOLE_ENABLED=false
       - PERSISTENCE_CATALOG_URL=jdbc:postgresql://db:5432/warehouse
       - PERSISTENCE_CATALOG_USER=warehouse
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
-      - MATATIKA_DATAFLOW_NETWORK=matatika
-      - MATATIKA_DATAFLOW_VOLUME_MOUNTS=workspaces:/workspaces
       - ELASTICSEARCH_HOST=search
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=file:/plugins
