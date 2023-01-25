@@ -1,0 +1,11 @@
+name: files-dbt
+namespace: dbt
+update:
+  transform/profile/profiles.yml: true
+variant: matatika
+repo: https://github.com/Matatika/files-dbt
+pip_url: git+https://github.com/Matatika/files-dbt@v1.0.x.1
+requires:
+  transformers:
+    - name: dbt
+      variant: dbt-labs
