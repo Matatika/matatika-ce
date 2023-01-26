@@ -7,76 +7,26 @@ description: |-
 
   ## Prerequisites
 
-  You will need a Github `auth_token` scoped with everything you need access to. For help with this you can follow the Github [Creating a Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-
-  You will also need to provide one of the following settings: 
-  - `Repositories`
-  - `Organizations`
-  - `Searches`
-  - `User Usernames`
-  - `User IDs`
+  You will need a Github `auth_token` scoped with full access to repo. For help with this you can follow the GitHub [Creating a Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
   ## Auth Token
 
   Github token to authenticate with.
 
-  ## Additional Auth Tokens
-
-  List of GitHub tokens to authenticate with. Streams will loop through them when hitting rate limits.
-
   ## Rate Limit Buffer
 
   Add a buffer to avoid consuming all query points for the token at hand.
-
-  ## Searches
-
-  An array of search descriptor objects with the following properties. "name" - a human readable name for the search query. "query" -  a github search string (generally the same as would come after ?q= in the URL).
-
-  ## Organizations
-
-  An array of strings containing the github organizations to be included.
-
-  Example: `["Matatika", "MatatikaBytes"]`
 
   ## Repositories
 
   An array of strings containing the github repos to be included.
 
   Example: `["Matatika/tap-spotify", "Matatika/tap-auth0"]`
-
-  ## User Usernames
-
-  An array of strings containing GitHub usernames.
-
-  Example: `["user", "usertwo"]`
-
-  ## User IDs
-
-  A list of GitHub user ids.
-
-  Example: `["12345", "54321"]`
-
-  ## Start Date
-
-  When to start syncing data from.
-
-  ## Stream Maps
-
-  Optional stream maps.
-
-  ## Stream Map Config
-
-  Configuration for your stream maps.
-
-  ## Skip Parent Streams
-
-  Set to true to skip API calls for the parent streams (such as repositories) if it is not selected but children are.
-
   ## Learn more
 
-  [Matatika Github Data Source Documentation](${docsBaseUrl}/data-sources/tap-github)
+  [Matatika GitHub Data Source Documentation](${docsBaseUrl}/data-sources/tap-github)
 
-  [Meltano Hub Auth0 Documentation](https://hub.meltano.com/extractors/tap-github/)
+  [Meltano Hub GitHub Documentation](https://hub.meltano.com/extractors/tap-github/)
 
 variant: meltanolabs
 docs: ${docsBaseUrl}/data-sources/tap-github/
@@ -88,45 +38,13 @@ capabilities:
   - discover
   - about
 settings:
-  - label: User Agent
-    name: user_agent
-  - description: The log level of the API response metrics.
-    label: Metrics Log Level
-    name: metrics_log_level
   - kind: password
     label: Auth Token
     name: auth_token
     required: true
-  - kind: array
-    label: Additional Auth Tokens
-    name: additional_auth_tokens
   - kind: integer
     label: Rate Limit Buffer
     name: rate_limit_buffer
   - kind: array
-    label: Searches
-    name: searches
-  - kind: array
-    label: Organizations
-    name: organizations
-  - kind: array
     label: Repositories
     name: repositories
-  - kind: array
-    label: User Usernames
-    name: user_usernames
-  - kind: array
-    label: User IDs
-    name: user_ids
-  - kind: date_iso8601
-    label: Start Date
-    name: start_date
-  - kind: object
-    label: Stream Maps
-    name: stream_maps
-  - kind: object
-    label: Stream Map Config
-    name: stream_map_config
-  - kind: boolean
-    label: Skip Parent Streams
-    name: skip_parent_streams
