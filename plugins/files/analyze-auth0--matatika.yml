@@ -1,0 +1,14 @@
+name: analyze-auth0
+namespace: tap_auth0
+label: Auth0 Insights
+description: |-
+  Instant insights on users, logins and quotas from Auth0.
+update:
+  '*.yml': true
+variant: matatika
+repo: https://github.com/Matatika/analyze-auth0
+pip_url: git+https://github.com/Matatika/analyze-auth0@v0.5.0
+requires:
+  extractors:
+    - name: tap-auth0
+      variant: matatika
