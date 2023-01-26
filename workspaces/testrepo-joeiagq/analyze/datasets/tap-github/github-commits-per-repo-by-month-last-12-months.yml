@@ -1,0 +1,55 @@
+# This file is managed by the 'analyze-github' file bundle and updated automatically when `meltano upgrade` is run.
+# To prevent any manual changes from being overwritten, remove the file bundle from `meltano.yml` or disable automatic updates:
+#     meltano config --plugin-type=files analyze-github set _update analyze/datasets/tap-github/github-commits-per-repo-by-month-last-12-months.yml false
+
+version: datasets/v0.2
+source: Github
+title: Commits Per Repo Last 12 Months
+description: |-
+  Total commits per repo for the last 12 months
+
+  #github
+metadata: |-
+  {
+    "name": "commits",
+    "label": "Commits Per Repo Last 12 Months", 
+    "related_table": {
+      "columns": [
+        {"name": "year", "label": "Year", "description": "Year"},
+        {"name": "month", "label": "Month", "description": "Month"},
+        {"name": "repo", "label": "Repository", "description": "Repository"}
+      ],
+      "aggregates": [
+        {"name": "commit_count", "label": "Commits", "description": "Commits"}
+      ]
+    }
+  }
+visualisation: |-
+  {"chartjs-chart": 
+    {"chartType": "bar", 
+      "options": {
+        "scales": {
+          "x": {
+            "stacked": true
+          },
+          "y": {
+            "stacked": true,
+            "title": {
+                  "display": true,
+                  "text": "Spend"
+            }
+          }
+        }
+      }
+    }
+  }
+query: |-
+  SELECT
+    date_part('year', commit__author__date::DATE) as "commits.year",
+    date_part('month', commit__author__date::DATE) as "commits.month",
+    repo as "commits.repo",
+    COUNT(*) AS "commits.commit_count"
+  FROM commits
+  WHERE commit__author__date >= CURRENT_DATE - INTERVAL '1 YEAR'
+  GROUP BY 1, 2, 3
+  ORDER BY 1, 2, 3

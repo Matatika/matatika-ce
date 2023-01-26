@@ -1,0 +1,39 @@
+{
+  "plugin_type": "extractors",
+  "name": "tap-github",
+  "namespace": "tap_github",
+  "variant": "meltanolabs",
+  "label": "GitHub",
+  "docs": "http://localhost:4000/docs/data-sources/tap-github/",
+  "repo": "https://github.com/MeltanoLabs/tap-github",
+  "pip_url": "git+https://github.com/MeltanoLabs/tap-github.git",
+  "description": "GitHub is an online software development platform. It's used for storing, tracking, and collaborating on software projects.\n\n## Prerequisites\n\nYou will need a Github `auth_token` scoped with full access to repo. For help with this you can follow the GitHub [Creating a Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)\n\n## Auth Token\n\nGithub token to authenticate with.\n\n## Rate Limit Buffer\n\nAdd a buffer to avoid consuming all query points for the token at hand.\n\n## Repositories\n\nAn array of strings containing the github repos to be included.\n\nExample: `[\"Matatika/tap-spotify\", \"Matatika/tap-auth0\"]`\n## Learn more\n\n[Matatika GitHub Data Source Documentation](http://localhost:4000/docs/data-sources/tap-github)\n\n[Meltano Hub GitHub Documentation](https://hub.meltano.com/extractors/tap-github/)",
+  "logo_url": "https://localhost:3443/assets/images/datasource/tap-github.png",
+  "capabilities": [
+    "discover",
+    "state",
+    "about",
+    "catalog"
+  ],
+  "settings": [
+    {
+      "name": "auth_token",
+      "kind": "password",
+      "label": "Auth Token",
+      "protected": false,
+      "required": "true"
+    },
+    {
+      "name": "rate_limit_buffer",
+      "kind": "integer",
+      "label": "Rate Limit Buffer",
+      "protected": false
+    },
+    {
+      "name": "repositories",
+      "kind": "array",
+      "label": "Repositories",
+      "protected": false
+    }
+  ]
+}

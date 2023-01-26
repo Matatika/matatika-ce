@@ -1,0 +1,38 @@
+# This file is managed by the 'analyze-github' file bundle and updated automatically when `meltano upgrade` is run.
+# To prevent any manual changes from being overwritten, remove the file bundle from `meltano.yml` or disable automatic updates:
+#     meltano config --plugin-type=files analyze-github set _update analyze/datasets/tap-github/github-latest-10-issues.yml false
+
+version: datasets/v0.2
+source: Github
+title: Latest 10 Issues
+description: |-
+  Latest 10 issues.
+
+  #github
+metadata: |-
+  {
+      "name": "issues",
+      "label": "Latest 10 Issues",
+      "related_table": {
+        "columns": [
+            {"name": "created_at", "label": "Created At", "description": "Created At"},
+            {"name": "state", "label": "State", "description": "State"},
+            {"name": "closed_at", "label": "Closed At", "description": "Closed At"},
+            {"name": "org", "label": "Organization", "description": "Organization"},
+            {"name": "repo", "label": "Repository", "description": "Repository"},
+            {"name": "title", "label": "Title", "description": "Title"}
+        ]
+      }
+  }
+visualisation: '{"google-chart": {"chartType": "Table"}}'
+query: |-
+  SELECT
+    created_at "issues.created_at",
+    state "issues.state",
+    closed_at "issues.closed_at",
+    org "issues.org",
+    repo "issues.repo",
+    title "issues.title"
+  FROM issues
+  ORDER BY created_at DESC
+  LIMIT 10

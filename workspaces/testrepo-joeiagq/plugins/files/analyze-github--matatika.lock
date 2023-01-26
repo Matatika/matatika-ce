@@ -1,0 +1,14 @@
+{
+  "plugin_type": "files",
+  "name": "analyze-github",
+  "namespace": "tap_github",
+  "variant": "matatika",
+  "label": "Github Insights",
+  "repo": "https://github.com/Matatika/analyze-github",
+  "pip_url": "git+https://github.com/Matatika/analyze-github",
+  "description": "Instant insights on commits, issues and PRs from Github.",
+  "logo_url": "https://localhost:3443/assets/images/datasource/tap-github.png",
+  "update": {
+    "*.yml": "true"
+  }
+}

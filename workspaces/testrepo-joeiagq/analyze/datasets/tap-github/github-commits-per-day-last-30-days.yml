@@ -1,0 +1,50 @@
+# This file is managed by the 'analyze-github' file bundle and updated automatically when `meltano upgrade` is run.
+# To prevent any manual changes from being overwritten, remove the file bundle from `meltano.yml` or disable automatic updates:
+#     meltano config --plugin-type=files analyze-github set _update analyze/datasets/tap-github/github-commits-per-day-last-30-days.yml false
+
+version: datasets/v0.2
+source: Github
+title: Commits per Day for the Last 30 Days
+description: |-
+  Number of commits per day for the last 30 Days.
+
+  #github
+metadata: |-
+  {
+    "name": "commits",
+    "label": "Total Commits per Day for the Last 30 Days", 
+    "related_table": {
+      "columns": [
+        {"name": "date_day", "label": "Date", "description": "Date"}
+      ],
+      "aggregates": [
+        {"name": "commit_count", "label": "Commit Count", "description": "Commit Count"}
+      ]
+    }
+  }
+visualisation: |-
+  {"chartjs-chart": 
+    {"chartType": "line", 
+      "options": {
+        "scales": {
+          "y": {
+            "beginAtZero": true
+          }
+        }
+      }
+    }
+  }
+query: |-
+  with recursive dim_date as (
+  select (current_date - interval '30 day')::date as date_day --start
+  union all
+  select (date_day + INTERVAL '1 day')::date
+  from dim_date
+  where date_day < (current_date - interval '1 day')::date --end
+  ) 
+  select date_day "commits.date_day"
+  , count(*) - 1 "commits.commit_count"
+  from dim_date dd
+  left join commits c on c.commit__author__date::date = dd.date_day
+  GROUP BY date_day
+  ORDER BY date_day

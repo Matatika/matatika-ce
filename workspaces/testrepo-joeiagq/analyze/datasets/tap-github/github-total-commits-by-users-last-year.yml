@@ -1,0 +1,43 @@
+# This file is managed by the 'analyze-github' file bundle and updated automatically when `meltano upgrade` is run.
+# To prevent any manual changes from being overwritten, remove the file bundle from `meltano.yml` or disable automatic updates:
+#     meltano config --plugin-type=files analyze-github set _update analyze/datasets/tap-github/github-total-commits-by-users-last-year.yml false
+
+version: datasets/v0.2
+source: Github
+title: Total Commits per User for the Last Year
+description: |-
+  Number of commits by each user for the last year.
+
+  #github
+metadata: |-
+  {
+    "name": "commits",
+    "label": "Total Commits per User for the Last Year", 
+    "related_table": {
+      "columns": [
+        {"name": "committer_name", "label": "Committer Name", "description": "Committer Name"}
+      ],
+      "aggregates": [
+        {"name": "commit_count", "label": "Commit Count", "description": "Commit Count"}
+      ]
+    }
+  }
+visualisation: |-
+  {"chartjs-chart": 
+    {"chartType": "bar", 
+      "options": {
+        "scales": {
+          "y": {
+            "beginAtZero": true
+          }
+        }
+      }
+    }
+  }
+query: |-
+  SELECT
+    COUNT(*) "commits.commit_count",
+    commit__committer__name "commits.committer_name"
+  FROM commits
+  GROUP BY commit__committer__name
+  ORDER BY "commits.commit_count" DESC
