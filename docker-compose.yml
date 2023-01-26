@@ -3,7 +3,7 @@ version: '3.7'
 services:
   catalog:
     user: $userID:$groupID
-    image: matatika/catalog:10278
+    image: matatika/catalog:10486
     ports:
       - '8080:8080'
     deploy:
@@ -15,15 +15,13 @@ services:
     tty: true
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
-      - ACTIVE_PROFILES=default,local,distribution
+      - ACTIVE_PROFILES=default,distribution
       - "JAVA_OPTS=-XX:MaxDirectMemorySize=1G -XX:MaxMetaspaceSize=240234K -XX:ReservedCodeCacheSize=240M -Xss1M -Xms512m -Xmx1040584K"
       - SPRING_H2_CONSOLE_ENABLED=false
       - PERSISTENCE_CATALOG_URL=jdbc:postgresql://db:5432/warehouse
       - PERSISTENCE_CATALOG_USER=warehouse
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
-      - MATATIKA_DATAFLOW_NETWORK=matatika
-      - MATATIKA_DATAFLOW_VOLUME_MOUNTS=workspaces:/workspaces
       - ELASTICSEARCH_HOST=search
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=file:/plugins
@@ -35,19 +33,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    entrypoint: >
-      /bin/bash -c "
-        wget --no-check-certificate -P /tmp/ https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvf /tmp/docker-latest.tgz --directory /tmp/ && mv /tmp/docker/docker /usr/local/bin;
-        echo 'Docker installed'
-        /docker-entrypoint.sh server"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - workspaces:/workspaces
       - plugins:/plugins
 
   app:
     user: root
-    image: matatika/app:10278
+    image: matatika/app:10486
     ports:
       - '3080:80'
       - '3443:443'
@@ -181,14 +173,12 @@ volumes:
     driver: local
   es-certs:
   workspaces:
-    name: workspaces
     driver: local
     driver_opts:
       type: none
       device: ${PWD}/workspaces
       o: bind
   plugins:
-    name: plugins
     driver: local
     driver_opts:
       type: none
