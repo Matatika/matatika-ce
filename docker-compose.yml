@@ -13,6 +13,7 @@ services:
             limits:
               memory: 3g
     tty: true
+    env_file: config/.env.catalog
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
       - ACTIVE_PROFILES=default,distribution
@@ -25,8 +26,6 @@ services:
       - ELASTICSEARCH_HOST=search
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=file:/plugins
-      # Generate a 256-bit (32-char) secret key and set it here. This is used to generate access tokens for the Matatika App and API.
-      - MATATIKA_AUTH_LOCAL_SECRET=matatikaauthlocalsecret_changeme
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
     healthcheck:
       test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
@@ -44,6 +43,7 @@ services:
       - '3080:80'
       - '3443:443'
     tty: true
+    env_file: config/.env.app
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
       - REACT_APP_ENV=distribution
