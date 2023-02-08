@@ -21,7 +21,7 @@ description: |-
 
   An array of strings containing the github repos to be included.
 
-  Example: `["Matatika/tap-spotify", "Matatika/tap-auth0"]`
+  Example: `["Matatika/matatika-ce"]`
   ## Learn more
 
   [Matatika GitHub Data Source Documentation](${docsBaseUrl}/data-sources/tap-github)
@@ -48,3 +48,4 @@ settings:
   - kind: array
     label: Repositories
     name: repositories
+    required: true
