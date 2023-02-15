@@ -1,7 +1,0 @@
-# This file is managed by the 'analyze-github' file bundle and updated automatically when `meltano upgrade` is run.
-# To prevent any manual changes from being overwritten, remove the file bundle from `meltano.yml` or disable automatic updates:
-#     meltano config --plugin-type=files analyze-github set _update analyze/channels/Github.yml false
-
-version: channels/v0.1
-description: Github
-picture: https://app.matatika.com/assets/images/datasource/tap-github.png
