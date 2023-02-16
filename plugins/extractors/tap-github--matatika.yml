@@ -7,15 +7,11 @@ description: |-
 
   ## Prerequisites
 
-  You will need a Github `auth_token` scoped with full access to repo. For help with this you can follow the GitHub [Creating a Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+  You will need a Github Personal Access Token scoped with full access to repo. For help with this you can follow the GitHub docs: [Creating a Classic Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic)
 
-  ## Auth Token
+  ## Personal Access Token
 
   Github token to authenticate with.
-
-  ## Rate Limit Buffer
-
-  Add a buffer to avoid consuming all query points for the token at hand.
 
   ## Repositories
 
@@ -39,12 +35,9 @@ capabilities:
   - about
 settings:
   - kind: password
-    label: Auth Token
+    label: Personal Access Token
     name: auth_token
     required: true
-  - kind: integer
-    label: Rate Limit Buffer
-    name: rate_limit_buffer
   - kind: array
     label: Repositories
     name: repositories
