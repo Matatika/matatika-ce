@@ -8,7 +8,7 @@ update:
   "*.yml": true
 variant: matatika
 repo: https://github.com/Matatika/analyze-github
-pip_url: git+https://github.com/Matatika/analyze-github
+pip_url: git+https://github.com/Matatika/analyze-github@v0.1.0
 requires:
   extractors:
     - name: tap-github
