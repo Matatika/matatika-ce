@@ -4,27 +4,21 @@ label: GitHub
 logo_url: /assets/images/datasource/tap-github.png
 description: |-
   GitHub is an online software development platform. It's used for storing, tracking, and collaborating on software projects.
-
-  ## Prerequisites
-
-  You will need a Github Personal Access Token scoped with full access to repo. For help with this you can follow the GitHub docs: [Creating a Classic Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic)
-
   ## Personal Access Token
+  Github token to authenticate with. This token will need to be a Github Classic `Personal Access Token` scoped with everything you need access to.
 
-  Github token to authenticate with.
+  These scopes can range from being able to access public endpoints, for example for public repositories, to private repository and endpoint permissions.
 
+  For a quick start if you are syncing a public repository (like the default Repositories value) the only required scope is `public_repo`.
+
+  For help with this you can follow the Github [Creating a Classic Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic)
   ## Repositories
-
   An array of strings containing the github repos to be included.
-
   Example: `["Matatika/matatika-ce"]`
   ## Learn more
-
   [Matatika GitHub Data Source Documentation](${docsBaseUrl}/data-sources/tap-github)
-
   [Meltano Hub GitHub Documentation](https://hub.meltano.com/extractors/tap-github/)
-
-variant: meltanolabs
+variant: matatika
 docs: ${docsBaseUrl}/data-sources/tap-github/
 repo: https://github.com/MeltanoLabs/tap-github
 pip_url: git+https://github.com/MeltanoLabs/tap-github.git
