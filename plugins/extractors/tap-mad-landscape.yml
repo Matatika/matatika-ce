@@ -1,0 +1,37 @@
+name: tap-mad-landscape
+namespace: tap_mad_landscape
+label: MAD (ML/AI/Data) Landscape
+logo_url: https://mad.firstmarkcap.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffirstmark.7d036ef9.png&w=256&q=75
+description: |-
+  MAD (ML/AI/Data) Landscape
+
+  ## Source
+
+  [CB Insights](https://www.cbinsights.com/)
+
+variant: matatika
+docs: ${docsBaseUrl}/data-sources/tap-spreadsheets-anywhere/
+repo: https://github.com/Matatika/tap-spreadsheets-anywhere
+pip_url: git+https://github.com/Matatika/tap-spreadsheets-anywhere@v0.2.0
+executable: tap-spreadsheets-anywhere
+capabilities:
+  - catalog
+  - discover
+  - state
+settings:
+  - name: tables
+    kind: array
+    description:
+      MAD (ML/AI/Data) Landscape.
+    required: false
+    value: |-
+      [{
+        "path":"https://raw.githubusercontent.com/aphethean1/MadExtract/main/",
+        "name":"mad_landscape",
+        "pattern":"mad-landscape.csv",
+        "field_names":["Category","Company","Country","Total Funding","Funding Numeric","Founded","Description"],
+        "skip_initial":1,
+        "start_date":"2023-01-01T00:00:00Z",
+        "key_properties":["company"],
+        "format":"csv"
+      }]
