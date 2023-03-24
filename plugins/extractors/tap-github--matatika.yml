@@ -13,10 +13,15 @@ description: |-
 
   For help with this you can follow the Github [Creating a Classic Personal Access Token Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic)
   ## Repositories
-  An array of strings containing the github repos to be included.
-  Example: `["Matatika/matatika-ce"]`
+  Any number of github repositories to be included.
+
+  Add a new repository in the `Add a value` box and then press the `+`, to remove from your list click the  `-` next to the repository.
+
+  Example: `Matatika/matatika-ce`
+
   ## Learn more
   [Matatika GitHub Data Source Documentation](${docsBaseUrl}/data-sources/tap-github)
+  
   [Meltano Hub GitHub Documentation](https://hub.meltano.com/extractors/tap-github/)
 variant: matatika
 docs: ${docsBaseUrl}/data-sources/tap-github/
