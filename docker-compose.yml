@@ -3,7 +3,7 @@ version: '3.7'
 services:
   catalog:
     user: $userID:$groupID
-    image: matatika/catalog:11719
+    image: matatika/catalog:11850
     ports:
       - '8080:8080'
     deploy:
@@ -38,7 +38,7 @@ services:
 
   app:
     user: root
-    image: matatika/app:11719
+    image: matatika/app:11850
     ports:
       - '3080:80'
       - '3443:443'
