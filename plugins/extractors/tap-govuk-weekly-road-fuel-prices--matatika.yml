@@ -26,9 +26,9 @@ settings:
     required: false
     value: |-
       [{
-        "path":"https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1140565/",
+        "path":"https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1152464/",
         "name":"weekly_fuel_prices",
-        "pattern":"CSV_060323.csv",
+        "pattern":"CSV_240423.csv",
         "field_names":["Date","ULSP_per_litre","ULSD_per_litre","ULSP_duty","ULSD_duty","ULSP_vat_pc","ULSD_vat_pc"],
         "skip_initial":18,
         "start_date":"2003-09-06T00:00:00Z",

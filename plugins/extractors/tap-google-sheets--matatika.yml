@@ -1,0 +1,81 @@
+name: tap-google-sheets
+label: Google Sheets
+description: |-
+  Google Sheets is a web-based application that enables users to create, update and modify spreadsheets and share the data online in real time.
+
+  ## Data source settings
+  ### Sheet ID - `Required`
+
+  Once you have connected with your google account, the `Sheet ID` drop down will allow you to choose which sheet you want to get your data from.
+
+  ### Stream Name - `Optional`
+
+  Set the stream name to control the table or file name output by the target. By default this will be the file name of your Google Sheet.
+
+  ### Child Sheet Name - `Optional`
+
+  Pick a different sheet within your Google Sheet to sync data from. By default we sync data from the first visible sheet in your Google Sheet.
+
+  ### Key Properties - `Optional`
+
+  Pick or more columns from your Google Sheet to act as primary keys. By default we use no primary keys and sync everything everytime.
+
+  Add a new column in the `Add a value` box and then press the `+`, to remove from your list click the  `-` next to the column name.
+
+  Example: `column_one`
+
+  ## Learn more
+
+  [Matatika Google Sheets Data Source Documentation](${docsBaseUrl}/data-sources/tap-google-sheets)
+
+namespace: tap_google_sheets
+logo_url: /assets/images/datasource/tap-google-sheets.png
+variant: matatika
+docs: ${docsBaseUrl}/data-sources/tap-google-sheets/
+repo: https://github.com/Matatika/tap-google-sheets
+pip_url: git+https://github.com/Matatika/tap-google-sheets@v0.3.0
+capabilities:
+  - catalog
+  - discover
+  - state
+settings:
+  - name: oauth_credentials.authorization_url
+    kind: hidden
+    label: OAuth identity provider authorization endpoint used create and refresh tokens
+    value: https://oauth2.googleapis.com/token
+    required: true
+  - name: oauth_credentials.scope
+    kind: hidden
+    label: OAuth scopes we need to request access to
+    value: https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/drive.readonly
+    required: true
+  - name: oauth_credentials.access_token
+    kind: hidden
+    label: Access Token
+    required: true
+  - name: oauth_credentials.refresh_token
+    kind: hidden
+    label: OAuth Refresh Token
+    required: true
+  - name: oauth_credentials.refresh_proxy_url
+    kind: hidden
+    label: Optional - will be called with 'oauth_credentials.refresh_token' to refresh the access token
+  - name: oauth_credentials.refresh_proxy_url_auth
+    kind: hidden
+    label: Optional - Sets Authorization header on 'oauth_credentials.refresh_url' request
+  - name: oauth_credentials.client_id
+    kind: hidden
+    label: Optional - OAuth Client ID used if refresh_proxy_url not supplied
+  - name: oauth_credentials.client_secret
+    kind: hidden
+    label: Optional - OAuth Client Secret used if refresh_proxy_url not supplied
+  - name: sheet_id
+    label: Sheet ID
+    required: true
+  - name: stream_name
+    label: Stream Name (Optional)
+  - name: child_sheet_name
+    label: Child Sheet Name (Optional)
+  - name: key_properties
+    kind: array
+    label: Key Properties (Optional)

@@ -1,0 +1,102 @@
+name: tap-googleads
+namespace: tap_googleads
+label: Google Ads
+logo_url: /assets/images/datasource/tap-googleads.svg
+description: |-
+  App and website ads platform hosted by Google.
+
+  ## Prerequisites
+
+  [Google Ads Prerequisites](${docsBaseUrl}/data-sources/tap-googleads/prerequisites)
+
+  ## Data source settings
+
+  ### Customer Id
+
+  Customer Id is the account id of your Google Ads account with the ads campaigns, and therefore data, that will get synced.
+
+  Your Customer Id is usually in the format '111-111-1111' but to make requests to the api we have to remove the dashes.
+
+  ### Start Date
+
+  Providing a start date allows you to set how much historical data you wish to import into you workspace.
+
+  If you do not provide a start date the tap will set a date of 90 days ago.
+
+  This date has to be in the ISO-8601 date format, see the example below.
+
+  Format: `YYYY-MM-DDTHH:MM:SSZ`
+
+  Example: `2020-10-01T13:12:11Z`
+
+  ### End Date
+
+  Providing a end date allows you to set how much historical data you wish to import into you workspace.
+
+  If you do not provide a end date the tap will sync all data up to the current date.
+
+  This date has to be in the ISO-8601 date format, see the example below.
+
+  Format: `YYYY-MM-DDTHH:MM:SSZ`
+
+  Example: `2020-10-01T13:12:11Z`
+
+  ## Learn more
+
+  [Matatika Google Ads Data Source Documentation](${docsBaseUrl}/data-sources/tap-googleads)
+
+  [Meltano Hub Google Ads Documentation](https://hub.meltano.com/taps/googleads)
+
+variant: matatika
+docs: ${docsBaseUrl}/data-sources/tap-googleads/
+repo: https://github.com/Matatika/tap-googleads
+pip_url: git+https://github.com/Matatika/tap-googleads@v0.3.3
+capabilities:
+  - catalog
+  - discover
+  - state
+settings:
+  - name: oauth_credentials.authorization_url
+    kind: hidden
+    label: OAuth identity provider authorization endpoint used create and refresh tokens
+    value: https://oauth2.googleapis.com/token
+    required: true
+  - name: oauth_credentials.scope
+    kind: hidden
+    label: OAuth scopes we need to request access to
+    value: https://www.googleapis.com/auth/adwords
+    required: true
+  - name: oauth_credentials.access_token
+    kind: hidden
+    label: Access Token
+    required: true
+  - name: oauth_credentials.refresh_token
+    kind: hidden
+    label: OAuth Refresh Token
+    required: true
+  - name: oauth_credentials.refresh_proxy_url
+    kind: hidden
+    label: Optional - will be called with 'oauth_credentials.refresh_token' to refresh the access token
+  - name: oauth_credentials.refresh_proxy_url_auth
+    kind: hidden
+    label: Optional - Sets Authorization header on 'oauth_credentials.refresh_url' request
+  - name: oauth_credentials.client_id
+    kind: hidden
+    label: Optional - OAuth Client ID used if refresh_proxy_url not supplied
+  - name: oauth_credentials.client_secret
+    kind: hidden
+    label: Optional - OAuth Client Secret used if refresh_proxy_url not supplied
+  - name: start_date
+    kind: date_iso8601
+    label: Start Date
+  - name: end_date
+    kind: date_iso8601
+    label: End Date
+  - name: developer_token
+    kind: hidden
+    value: DYSuW0qdfU5-jti8Zdh1HQ
+    label: Developer Token
+    required: true
+  - name: customer_id
+    label: Customer Id
+    required: true
