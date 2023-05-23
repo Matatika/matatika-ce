@@ -25,7 +25,7 @@ services:
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
       - MATATIKA_WORKSPACES_HOME=/workspaces
-      - MATATIKA_PLUGINS_HOME=file:/plugins
+      - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
     healthcheck:
       test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
@@ -34,7 +34,7 @@ services:
       retries: 5
     volumes:
       - workspaces:/workspaces
-      - plugins:/plugins
+      - plugins:/local-plugins
 
   app:
     user: root
