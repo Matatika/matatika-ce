@@ -132,7 +132,7 @@ services:
     expose:
       - "5000"
     ports:
-      -        "5000:5000"
+      - "5000:5000"
       ## these ports enable send of our local syslog events to logstash (useful for debugging)
       # nc localhost 514 < /var/log/syslog
       - "514:5000"
