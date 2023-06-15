@@ -24,6 +24,9 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
+      # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings
+      #- OAUTH2_GOOGLE_CLIENT_ID=
+      #- OAUTH2_GOOGLE_CLIENT_SECRET=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
@@ -47,6 +50,8 @@ services:
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
       - REACT_APP_ENV=distribution
+      # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
+      #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
     entrypoint: >
       /bin/bash -c "
@@ -132,7 +137,7 @@ services:
     expose:
       - "5000"
     ports:
-      -        "5000:5000"
+      - "5000:5000"
       ## these ports enable send of our local syslog events to logstash (useful for debugging)
       # nc localhost 514 < /var/log/syslog
       - "514:5000"
