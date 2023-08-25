@@ -50,6 +50,11 @@ services:
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
       - REACT_APP_ENV=distribution
+      - APP_IDENTITY_DOMAIN=matatika.eu.auth0.com
+      - APP_IDENTITY_CLIENT_ID=BcfXRdijQVlfhlNRotuQAQIBVTg5nfyJ
+      - APP_IDENTITY_CONNECTION=DB-Matatika-Production
+      - APP_SERVER_URI=http://citysprint-catalog.matatika.com:8080/api
+      - HTTPS=false
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
@@ -190,4 +195,3 @@ volumes:
 
 networks:
   default:
-    name: matatika
