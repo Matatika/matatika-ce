@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
   nginx:
-    user: $userID:$groupID
     image: nginx
     ports:
       - '8443:8443'
@@ -13,6 +12,7 @@ services:
               memory: 1g
             limits:
               memory: 3g
+    depends_on: {"catalog": {"condition": "service_healthy"}, "app": {"condition": "service_healthy"}}
     tty: true
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
@@ -83,6 +83,11 @@ services:
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
+    healthcheck:
+      test: curl -s http://localhost:80 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
     entrypoint: >
       /bin/bash -c "
         /app/docker-entrypoint.sh app"
