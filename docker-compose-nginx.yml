@@ -231,3 +231,4 @@ volumes:
 
 networks:
   default:
+    name: matatika

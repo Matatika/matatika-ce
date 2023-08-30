@@ -44,6 +44,7 @@ services:
     image: matatika/app:14914
     ports:
       - '3080:80'
+      - '3443:443'
     tty: true
     env_file: config/.env.app
     environment:
@@ -194,3 +195,4 @@ volumes:
 
 networks:
   default:
+    name: matatika
