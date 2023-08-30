@@ -79,7 +79,6 @@ services:
       - APP_IDENTITY_CLIENT_ID=BcfXRdijQVlfhlNRotuQAQIBVTg5nfyJ
       - APP_IDENTITY_CONNECTION=DB-Matatika-Production
       - APP_SERVER_URI=https://citysprint-catalog.matatika.com/api
-      - HTTPS=false
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
