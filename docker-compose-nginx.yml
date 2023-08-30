@@ -4,8 +4,7 @@ services:
   nginx:
     image: nginx
     ports:
-      - '8443:8443'
-      - '3443:3443'
+      - '443:443'
     deploy:
         resources:
             reservations:
