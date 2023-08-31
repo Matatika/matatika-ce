@@ -49,6 +49,11 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
+      - APP_URL=https://citysprint-app.matatika.com:3443
+      - CATALOG_URL=https://citysprint-catalog.matatika.com/api
+      - CATALOG_DOCBASEURL=https://www.matatika.com/docs
+      - CATALOG_WEBSITEBASEURL=https://www.matatika.com
+      - CATALOG_ALLOWED_ORIGINS=https://citysprint-app.matatika.com:3443
       # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings
       #- OAUTH2_GOOGLE_CLIENT_ID=
       #- OAUTH2_GOOGLE_CLIENT_SECRET=
