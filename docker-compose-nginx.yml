@@ -54,6 +54,7 @@ services:
       - CATALOG_DOCBASEURL=https://www.matatika.com/docs
       - CATALOG_WEBSITEBASEURL=https://www.matatika.com
       - CATALOG_ALLOWED_ORIGINS=https://citysprint-app.matatika.com:3443
+      - CATALOG_AUTH_IDPS_PRIMARY_AUDIENCE=https://citysprint-catalog.matatika.com/api
       # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings
       #- OAUTH2_GOOGLE_CLIENT_ID=
       #- OAUTH2_GOOGLE_CLIENT_SECRET=
