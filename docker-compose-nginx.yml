@@ -77,8 +77,7 @@ services:
     user: root
     image: matatika/app:14914
     ports:
-      - '3080:80'
-      - '3443:443'
+      - '3080:3080'
     tty: true
     env_file: config/.env.app
     environment:
@@ -88,6 +87,8 @@ services:
       - APP_IDENTITY_CLIENT_ID=BcfXRdijQVlfhlNRotuQAQIBVTg5nfyJ
       - APP_IDENTITY_CONNECTION=DB-Matatika-Production
       - APP_SERVER_URI=https://citysprint-catalog.matatika.com/api
+      - HTTPS=false
+      - PORT=3030
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
