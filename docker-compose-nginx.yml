@@ -49,11 +49,11 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
-      - APP_URL=https://citysprint-app.matatika.com:3443
+      - APP_URL=https://citysprint-app.matatika.com
       - CATALOG_URL=https://citysprint-catalog.matatika.com/api
       - CATALOG_DOCBASEURL=https://www.matatika.com/docs
       - CATALOG_WEBSITEBASEURL=https://www.matatika.com
-      - CATALOG_ALLOWED_ORIGINS=https://citysprint-app.matatika.com:3443
+      - CATALOG_ALLOWED_ORIGINS=https://citysprint-app.matatika.com
       - CATALOG_AUTH_IDPS_LOCAL_ISSUER_URI=https://citysprint-catalog.matatika.com/
       - CATALOG_AUTH_IDPS_LOCAL_AUDIENCE=https://citysprint-catalog.matatika.com/api
       - CATALOG_AUTH_IDPS_PRIMARY_AUDIENCE=https://citysprint-catalog.matatika.com/api
@@ -77,7 +77,7 @@ services:
     user: root
     image: matatika/app:14914
     ports:
-      - '3080:3080'
+      - '3080:80'
     tty: true
     env_file: config/.env.app
     environment:
