@@ -3,10 +3,11 @@ cat .env.app.cloud >> ../config/.env.app
 cat .env.catalog.cloud >> ../config/.env.catalog
 
 #run docker compose command
+echo Starting Matatika-CE in Docker...
 export userID=$(id -u); export groupID=$(id -g)
-../docker compose up  -> in a new process/thread 
-wait for everything to be up and running.
+docker compose -f ../docker-compose.yml up --detach
 
 #start nginx
+echo Staring nginx...
 nginx -c <fullpath>/matatika-ce/cloud_config/nginx.conf
 echo Everything is UP!
