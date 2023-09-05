@@ -1,14 +1,21 @@
-This directory contains your keys and certificates.
+This directory contains the extra files required to deploy Matatika-CE into cloud or as a server (application is accessible from outside the server deployment. Not in localhost)
 
-`[cert name]/privkey.pem`  : the private key for your certificate.
-`[cert name]/fullchain.pem`: the certificate file used in most server software.
-`[cert name]/chain.pem`    : used for OCSP stapling in Nginx >=1.3.7.
-`[cert name]/cert.pem`     : will break many server configurations, and should not be used
-                 without reading further documentation (see link below).
+`app_certificate/privkey.pem`  : the private key for your certificate. - for the application
+`app_certificate/fullchain.pem`: the certificate file used in most server software.  - for the application
+`catalog_certificate/privkey.pem`  : the private key for your certificate. - for the catalog
+`catalog_certificate/fullchain.pem`: the certificate file used in most server software.  - for the catalog
 
-WARNING: DO NOT MOVE OR RENAME THESE FILES!
-         Certbot expects these files to remain in this location in order
-         to function properly!
+Presequisite: 
+- NGINX is installed in the VM.
+- DOCKER with compose is installed in the VM
 
-We recommend not moving these files. For more information, see the Certbot
-User Guide at https://certbot.eff.org/docs/using.html#where-are-my-certificates.
+Steps to run the cloud version:
+
+1. Generate the SSL certificates for app and catalog:
+    Option 1 - generate 2 certificates, one for app and one for catalog (company-app.domain.com and company-catalog.domain.com). Copy required files in the certificate appropriate folders
+    Option 2 - generate 1 certificate for both app and catalog (matatika.domain.com). In this case, please copy the required files into both location (duplicate the files) - in this case, ports for app and catalog can't be the same. Please change those in nginx.conf file included in this folder.
+2. Edit nginx.conf file and replace <fullpath> with the full path of the folders. Also edit the <dns_name> with your dns names for app and catalog. 
+3. Edit the variables in .env.app.cloud file
+4. Edit the variables in .env.catalog.cloud file
+5. Edit enable_cloud.sh file <fullpath> for the nginx configuration file needs to be added. Nginx needs to point to this configuration file, and full path is required since. This shell script will copy the cloud configuration files to be loaded by docker compose, and also will start the Matatika CE and also start the nginx.
+
