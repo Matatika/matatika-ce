@@ -56,3 +56,6 @@ By installing this package you agree to the terms of our [community license](htt
 5. Share your data with the App or API
 
    Create new datasets in `[your-workspace]/analyze/datasets`
+
+## Running Matatika-CE in cloud
+You can deploy the Matatika CE version to a VM in cloud. Please see this file ./cloud_config/README.md
