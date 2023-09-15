@@ -18,8 +18,9 @@ Presequisite:
 2. Edit nginx.conf file and replace `<fullpath>` with the full path of the folders. Also, edit the `<app_dns_name>` and `<catalog_dns_name>` with your dns names for app and catalog. 
 3. Edit the variables in **.env.app.cloud** file (see comments inside the file)
 4. Edit the variables in **.env.catalog.cloud** file (see comments inside the file)
-5. Edit run.sh file `<fullpath>` for the nginx configuration file needs to be added. Nginx needs to point to this configuration file, and full path is required. This shell script will copy the cloud configuration files to be loaded by docker compose, start the Matatika CE and finally start the nginx.
-6. Run the run.sh file.
+5. If you are using your own Auth0 Identity Provider please see the comments in file ../config/.env.catalog. Lines number 4 and 5 needs to be updated.
+6. Edit run.sh file `<fullpath>` for the nginx configuration file needs to be added. Nginx needs to point to this configuration file, and full path is required. This shell script will copy the cloud configuration files to be loaded by docker compose, start the Matatika CE and finally start the nginx.
+7. Run the run.sh file.
 
 ## Quick guide
 This is the same as above, but into more summary
@@ -29,6 +30,6 @@ This is the same as above, but into more summary
     - `<fullpath>` needs to be replaced with the linux full path
     - `<app_dns_name>` to be replaced with application DNS name
     - `<catalog_dns_name>` to be replaced with catalog DNS name
-    - `<auth0_client_id>` - Auth0 client id - Please refer to this: https://www.matatika.com/docs/getting-started/community-edition#specify-a-custom-auth0-identity-provider on how to configure auth0 with your organization, but instead **localhost:port** you should use https://`<app_dns_name>` and https://`<catalog_dns_name>`/api
+    - `<auth0_client_id>` - Auth0 client id - Please refer to this: https://www.matatika.com/docs/getting-started/community-edition#specify-a-custom-auth0-identity-provider on how to configure auth0 with your organization, but instead **localhost:port** you should use https://`<app_dns_name>` and https://`<catalog_dns_name>`/api. Please see the comments in file ../config/.env.catalog. Lines number 4 and 5 needs to be updated.
     - `<auth0_databse_connection>` - Auth0 database
     - change `APP_IDENTITY_DOMAIN` value in **.env.app.cloud** file if you are not using Matatika Auth0 Identity Provider.
