@@ -58,7 +58,7 @@ services:
         /app/docker-entrypoint.sh app"
 
   search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
       - ELASTIC_PASSWORD=${MATATIKA_ES_ELASTIC_PASSWORD:-ChangeMe}
@@ -89,7 +89,7 @@ services:
 
   # Short lived container that sets up elastic search
   search-setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
       - ES_PATH_CONF=/usr/share/elasticsearch/config
@@ -109,7 +109,7 @@ services:
 
   # Short lived container that creates the certificates
   search-createcerts:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
     command: >
@@ -132,7 +132,7 @@ services:
       - es-certs:/certs
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.16.3
+    image: docker.elastic.co/logstash/logstash:7.17.3
     restart: always
     expose:
       - "5000"
