@@ -27,7 +27,7 @@ services:
       # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env.catalog)
       #- OAUTH2_GOOGLE_CLIENT_ID=
       #- OAUTH2_GOOGLE_CLIENT_SECRET=
-      # Define OPENAI_API_KEY to enable Open AI question answering (see config/.env.catalog)
+      # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env.catalog)
       #- OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
