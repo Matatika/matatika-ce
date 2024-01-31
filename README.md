@@ -58,4 +58,4 @@ By installing this package you agree to the terms of our [community license](htt
    Create new datasets in `[your-workspace]/analyze/datasets`
 
 ## Running Matatika-CE in cloud
-You can deploy the Matatika CE version to a VM in cloud. For further reference, please see this file [`./cloud_config/README.md`](https://github.com/Matatika/matatika-ce/tree/azure/cloud_config#readme)
+Checkout our guide to running Matatika CE on a VM in your cloud [here](./cloud_config#readme).
