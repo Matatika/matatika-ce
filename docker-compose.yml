@@ -6,6 +6,7 @@ services:
     image: matatika/catalog:22212
     ports:
       - '8080:8080'
+      - '8443:8443'
     deploy:
         resources:
             reservations:
@@ -31,6 +32,14 @@ services:
       #- OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
+      # HTTPS config - generate a keystore in config/certs
+      #- SERVER_PORT=8443
+      #- SERVER_SSL_ENABLED=true
+      #- SERVER_SSL_KEY_STORE=/certs/keystore.p12
+      #- SERVER_SSL_KEY_STORE_PASSWORD=password
+      #- SERVER_SSL_KEY_STORE_TYPE=pkcs12
+      #- SERVER_SSL_KEY_ALIAS=springboot
+      #- SERVER_SSL_KEY_PASSWORD=  # leave commented out for no password
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
     healthcheck:
       test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
@@ -53,6 +62,8 @@ services:
     environment:
       # Define DEVELOPMENT mode environments like debug settings etc
       - REACT_APP_ENV=distribution
+      #- APP_SERVER_URI=
+      #- APP_IDENTITY_CLIENT_ID=
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"catalog": {"condition": "service_healthy"}}
