@@ -38,6 +38,7 @@ services:
       timeout: 10s
       retries: 5
     volumes:
+      - certs:/certs
       - workspaces:/workspaces
       - plugins:/local-plugins
 
@@ -182,6 +183,12 @@ volumes:
   es-data:
     driver: local
   es-certs:
+  certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/config/certs
+      o: bind
   workspaces:
     driver: local
     driver_opts:
