@@ -13,9 +13,9 @@ services:
             limits:
               memory: 3g
     tty: true
-    env_file: config/.env.catalog
+    env_file: config/.env
     environment:
-      # Define DEVELOPMENT mode environments like debug settings etc
+      # ==== CATALOG ====
       - ACTIVE_PROFILES=default,distribution
       - "JAVA_OPTS=-XX:MaxDirectMemorySize=1G -XX:MaxMetaspaceSize=240234K -XX:ReservedCodeCacheSize=240M -Xss1M -Xms512m -Xmx1040584K"
       - SPRING_H2_CONSOLE_ENABLED=false
@@ -24,13 +24,18 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
-      # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env.catalog)
+      # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env)
       #- OAUTH2_GOOGLE_CLIENT_ID=
       #- OAUTH2_GOOGLE_CLIENT_SECRET=
-      # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env.catalog)
+      # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env)
       #- OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
+
+      # ==== APP ====
+      - REACT_APP_ENV=distribution
+      # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
+      #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
     healthcheck:
       test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
@@ -40,29 +45,6 @@ services:
     volumes:
       - workspaces:/workspaces
       - plugins:/local-plugins
-
-  app:
-    user: root
-    image: matatika/app:latest-dev
-    ports:
-      - '3080:80'
-      - '3443:443'
-    tty: true
-    env_file: config/.env.app
-    environment:
-      # Define DEVELOPMENT mode environments like debug settings etc
-      - REACT_APP_ENV=distribution
-      # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
-      #- APP_OAUTH_GOOGLE_CLIENT_ID=
-    depends_on: {"catalog": {"condition": "service_healthy"}}
-    healthcheck:
-      test: curl -sI --insecure https://localhost:3443 | grep '200 OK' >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    entrypoint: >
-      /bin/bash -c "
-        /app/docker-entrypoint.sh app"
 
   search:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
