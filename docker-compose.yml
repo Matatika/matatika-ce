@@ -1,17 +1,17 @@
-version: '3.7'
+version: "3.7"
 
 services:
   catalog:
     user: $userID:$groupID
     image: matatika/catalog:latest-dev
     ports:
-      - '8080:8080'
+      - "8080:8080"
     deploy:
-        resources:
-            reservations:
-              memory: 1g
-            limits:
-              memory: 3g
+      resources:
+        reservations:
+          memory: 1g
+        limits:
+          memory: 3g
     tty: true
     env_file: config/.env
     environment:
@@ -25,17 +25,17 @@ services:
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
       # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env)
-      #- OAUTH2_GOOGLE_CLIENT_ID=
-      #- OAUTH2_GOOGLE_CLIENT_SECRET=
+      # - OAUTH2_GOOGLE_CLIENT_ID=
+      # - OAUTH2_GOOGLE_CLIENT_SECRET=
       # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env)
-      #- OPENAI_API_KEY=
+      # - OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
 
       # ==== APP ====
       - REACT_APP_ENV=distribution
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
-      #- APP_OAUTH_GOOGLE_CLIENT_ID=
+      # - APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on:
       search-setup:
         condition: service_completed_successfully
@@ -166,7 +166,7 @@ services:
     expose:
       - "5432"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     healthcheck:
       test: pg_isready -U warehouse
       interval: 10s
