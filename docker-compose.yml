@@ -38,7 +38,7 @@ services:
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
     healthcheck:
-      test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
+      test: curl -fs http://localhost:8080/actuator/health | grep '^\{"status":"UP"' > /dev/null
       interval: 30s
       timeout: 10s
       retries: 5
@@ -70,7 +70,7 @@ services:
     ports:
       - "9200:9200"
     healthcheck:
-      test: curl --cacert config/certs/ca/ca.crt -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      test: curl -fs -u elastic:"$$ELASTIC_PASSWORD" --cacert config/certs/ca/ca.crt https://localhost:9200 > /dev/null
       interval: 30s
       timeout: 10s
       retries: 5
@@ -154,7 +154,7 @@ services:
     ports:
       - '5432:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U warehouse"]
+      test: pg_isready -U warehouse
       interval: 10s
       timeout: 5s
       retries: 5
