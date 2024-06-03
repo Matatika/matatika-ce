@@ -36,7 +36,13 @@ services:
       - REACT_APP_ENV=distribution
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       #- APP_OAUTH_GOOGLE_CLIENT_ID=
-    depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
+    depends_on:
+      search-setup:
+        condition: service_completed_successfully
+      search:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     healthcheck:
       test: curl -fs http://localhost:8080/actuator/health | grep '^\{"status":"UP"' > /dev/null
       interval: 30s
@@ -74,7 +80,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    depends_on: {"search-createcerts": {"condition": "service_completed_successfully"}}
+    depends_on:
+      search-createcerts:
+        condition: service_completed_successfully
 
   # Short lived container that sets up elastic search
   search-setup:
@@ -94,7 +102,9 @@ services:
     volumes:
       - ./orchestrate/matatika/elastic-search/config:/usr/share/elasticsearch/config/
       - es-certs:/usr/share/elasticsearch/config/certs
-    depends_on: {"search": {"condition": "service_healthy"}}
+    depends_on:
+      search:
+        condition: service_healthy
 
   # Short lived container that creates the certificates
   search-createcerts:
@@ -139,7 +149,11 @@ services:
       - ./orchestrate/matatika/elastic-logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./orchestrate/matatika/elastic-logstash/pipeline:/usr/share/logstash/pipeline
       - es-certs:/etc/certs
-    depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}}
+    depends_on:
+      search-setup:
+        condition: service_completed_successfully
+      search:
+        condition: service_healthy
 
   db:
     image: postgres:11
