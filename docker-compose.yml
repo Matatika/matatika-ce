@@ -58,7 +58,7 @@ services:
       test: curl -fs http://localhost:8080/actuator/health | grep '^\{"status":"UP"' > /dev/null
       interval: 10s
       timeout: 10s
-      start_period: 60s
+      start_period: 120s
       retries: 5
     volumes:
       - certs:/certs
