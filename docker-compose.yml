@@ -1,22 +1,21 @@
-version: '3.7'
+version: "3.7"
 
 services:
   catalog:
     user: $userID:$groupID
     image: matatika/catalog:22212
-    ports:
-      - '8080:8080'
-      - '8443:8443'
+      - "8080:8080"
+      - "8443:8443"
     deploy:
-        resources:
-            reservations:
-              memory: 1g
-            limits:
-              memory: 3g
+      resources:
+        reservations:
+          memory: 1g
+        limits:
+          memory: 3g
     tty: true
-    env_file: config/.env.catalog
+    env_file: config/.env
     environment:
-      # Define DEVELOPMENT mode environments like debug settings etc
+      # ==== CATALOG ====
       - ACTIVE_PROFILES=default,distribution
       - "JAVA_OPTS=-XX:MaxDirectMemorySize=1G -XX:MaxMetaspaceSize=240234K -XX:ReservedCodeCacheSize=240M -Xss1M -Xms512m -Xmx1040584K"
       - SPRING_H2_CONSOLE_ENABLED=false
@@ -25,56 +24,45 @@ services:
       - PERSISTENCE_CATALOG_PASS=warehouse
       - PERSISTENCE_CATALOG_DRIVER_CLASS_NAME=org.postgresql.Driver
       - ELASTICSEARCH_HOST=search
-      # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env.catalog)
-      #- OAUTH2_GOOGLE_CLIENT_ID=
-      #- OAUTH2_GOOGLE_CLIENT_SECRET=
-      # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env.catalog)
-      #- OPENAI_API_KEY=
+      # Define OAUTH2_GOOGLE_CLIENT_ID and OAUTH2_GOOGLE_CLIENT_SECRET to enable Google OAuth plugin settings (see config/.env)
+      # - OAUTH2_GOOGLE_CLIENT_ID=
+      # - OAUTH2_GOOGLE_CLIENT_SECRET=
+      # Define OPENAI_API_KEY to enable OpenAI question answering (see config/.env)
+      # - OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
       # HTTPS config - generate a keystore in config/certs
-      #- SERVER_PORT=8443
-      #- SERVER_SSL_ENABLED=true
-      #- SERVER_SSL_KEY_STORE=/certs/keystore.p12
-      #- SERVER_SSL_KEY_STORE_PASSWORD=password
-      #- SERVER_SSL_KEY_STORE_TYPE=pkcs12
-      #- SERVER_SSL_KEY_ALIAS=springboot
-      #- SERVER_SSL_KEY_PASSWORD=  # leave commented out for no password
-    depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}, "db": {"condition": "service_healthy"}}
+      # - SERVER_PORT=8443
+      # - SERVER_SSL_ENABLED=true
+      # - SERVER_SSL_KEY_STORE=/certs/keystore.p12
+      # - SERVER_SSL_KEY_STORE_PASSWORD=password
+      # - SERVER_SSL_KEY_STORE_TYPE=pkcs12
+      # - SERVER_SSL_KEY_ALIAS=springboot
+      # - SERVER_SSL_KEY_PASSWORD=  # leave commented out for no password
+
+      # ==== APP ====
+      - REACT_APP_ENV=distribution
+      #- APP_SERVER_URI=
+      #- APP_IDENTITY_CLIENT_ID=
+      # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
+      # - APP_OAUTH_GOOGLE_CLIENT_ID=
+    depends_on:
+      search-setup:
+        condition: service_completed_successfully
+      search:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     healthcheck:
-      test: curl -s http://localhost:8080/api/actuator/health | grep "UP" >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
-      interval: 30s
+      test: curl -fs http://localhost:8080/actuator/health | grep '^\{"status":"UP"' > /dev/null
+      interval: 10s
       timeout: 10s
+      start_period: 60s
       retries: 5
     volumes:
       - certs:/certs
       - workspaces:/workspaces
       - plugins:/local-plugins
-
-  app:
-    user: root
-    image: matatika/app:22212
-    ports:
-      - '3080:80'
-      - '3443:443'
-    tty: true
-    env_file: config/.env.app
-    environment:
-      # Define DEVELOPMENT mode environments like debug settings etc
-      - REACT_APP_ENV=distribution
-      #- APP_SERVER_URI=
-      #- APP_IDENTITY_CLIENT_ID=
-      # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
-      #- APP_OAUTH_GOOGLE_CLIENT_ID=
-    depends_on: {"catalog": {"condition": "service_healthy"}}
-    healthcheck:
-      test: curl -sI --insecure https://localhost:3443 | grep '200 OK' >/dev/null; if [[ $$? == 0 ]]; then echo 0; else echo 1; fi
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    entrypoint: >
-      /bin/bash -c "
-        /app/docker-entrypoint.sh app"
 
   search:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
@@ -100,11 +88,14 @@ services:
     ports:
       - "9200:9200"
     healthcheck:
-      test: curl --cacert config/certs/ca/ca.crt -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 30s
+      test: curl -fs -u elastic:"$$ELASTIC_PASSWORD" --cacert config/certs/ca/ca.crt https://localhost:9200 > /dev/null
+      interval: 10s
       timeout: 10s
+      start_period: 60s
       retries: 5
-    depends_on: {"search-createcerts": {"condition": "service_completed_successfully"}}
+    depends_on:
+      search-createcerts:
+        condition: service_completed_successfully
 
   # Short lived container that sets up elastic search
   search-setup:
@@ -124,7 +115,9 @@ services:
     volumes:
       - ./orchestrate/matatika/elastic-search/config:/usr/share/elasticsearch/config/
       - es-certs:/usr/share/elasticsearch/config/certs
-    depends_on: {"search": {"condition": "service_healthy"}}
+    depends_on:
+      search:
+        condition: service_healthy
 
   # Short lived container that creates the certificates
   search-createcerts:
@@ -169,7 +162,11 @@ services:
       - ./orchestrate/matatika/elastic-logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./orchestrate/matatika/elastic-logstash/pipeline:/usr/share/logstash/pipeline
       - es-certs:/etc/certs
-    depends_on: {"search-setup": {"condition": "service_completed_successfully"}, "search": {"condition": "service_healthy"}}
+    depends_on:
+      search-setup:
+        condition: service_completed_successfully
+      search:
+        condition: service_healthy
 
   db:
     image: postgres:11
@@ -182,9 +179,9 @@ services:
     expose:
       - "5432"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U warehouse"]
+      test: pg_isready -U warehouse
       interval: 10s
       timeout: 5s
       retries: 5
