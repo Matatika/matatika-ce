@@ -6,6 +6,7 @@ services:
     image: matatika/catalog:latest-dev
     ports:
       - "8080:8080"
+      - "8443:8443"
     deploy:
       resources:
         reservations:
@@ -31,9 +32,19 @@ services:
       # - OPENAI_API_KEY=
       - MATATIKA_WORKSPACES_HOME=/workspaces
       - MATATIKA_PLUGINS_HOME=/plugins,/plugins-staging,file:/local-plugins
+      # HTTPS config - generate a keystore in config/certs
+      # - SERVER_PORT=8443
+      # - SERVER_SSL_ENABLED=true
+      # - SERVER_SSL_KEY_STORE=/certs/keystore.p12
+      # - SERVER_SSL_KEY_STORE_PASSWORD=password
+      # - SERVER_SSL_KEY_STORE_TYPE=pkcs12
+      # - SERVER_SSL_KEY_ALIAS=springboot
+      # - SERVER_SSL_KEY_PASSWORD=  # leave commented out for no password
 
       # ==== APP ====
       - REACT_APP_ENV=distribution
+      #- APP_SERVER_URI=
+      #- APP_IDENTITY_CLIENT_ID=
       # Define APP_OAUTH_GOOGLE_CLIENT_ID to enable Google OAuth plugin settings
       # - APP_OAUTH_GOOGLE_CLIENT_ID=
     depends_on:
@@ -47,9 +58,10 @@ services:
       test: curl -fs http://localhost:8080/actuator/health | grep '^\{"status":"UP"' > /dev/null
       interval: 10s
       timeout: 10s
-      start_period: 60s
+      start_period: 120s
       retries: 5
     volumes:
+      - certs:/certs
       - workspaces:/workspaces
       - plugins:/local-plugins
 
@@ -180,6 +192,12 @@ volumes:
   es-data:
     driver: local
   es-certs:
+  certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/config/certs
+      o: bind
   workspaces:
     driver: local
     driver_opts:
