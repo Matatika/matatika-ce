@@ -3,7 +3,7 @@ version: "3.7"
 services:
   catalog:
     user: $userID:$groupID
-    image: matatika/catalog:25507
+    image: matatika/catalog:26645
     ports:
       - "8080:8080"
       - "8443:8443"
