@@ -1,7 +1,0 @@
-http.host: "0.0.0.0"
-xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.hosts: [ "${ELASTICSEARCH_HOSTS}" ]
-xpack.monitoring.elasticsearch.username: "elastic"
-xpack.monitoring.elasticsearch.password: "${MATATIKA_ES_ELASTIC_PASSWORD}"
-xpack.monitoring.elasticsearch.ssl.certificate_authority: /etc/certs/ca/ca.crt
-pipeline.ecs_compatibility: disabled
