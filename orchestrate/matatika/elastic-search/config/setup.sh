@@ -42,9 +42,3 @@ else
     #curl -v --cacert $ES_PATH_CONF/certs/ca/ca.crt --user elastic:$MATATIKA_ES_ELASTIC_PASSWORD -XDELETE "${MATATIKA_ES_BASE_URI}/profiles_datasets_likes"
     curl -s --cacert $ES_PATH_CONF/certs/ca/ca.crt --user elastic:$MATATIKA_ES_ELASTIC_PASSWORD -XPUT "${MATATIKA_ES_BASE_URI}/profiles_datasets_likes?pretty" -H 'Content-Type: application/json' -d @es_profiles_datasets_likes_index_config.json
 fi
-#
-# Update the default logstash-policy
-#
-echo "Updating the default logstash-policy"
-cat es_logstash_policy_config.json
-curl -s --cacert $ES_PATH_CONF/certs/ca/ca.crt --user elastic:$MATATIKA_ES_ELASTIC_PASSWORD --output /dev/null -XPUT "${MATATIKA_ES_BASE_URI}/_ilm/policy/logstash-policy" -H 'Content-Type: application/json' -d @es_logstash_policy_config.json

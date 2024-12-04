@@ -3,7 +3,7 @@ version: "3.7"
 services:
   catalog:
     user: $userID:$groupID
-    image: matatika/catalog:26645
+    image: matatika/catalog:latest-dev
     ports:
       - "8080:8080"
       - "8443:8443"
@@ -143,31 +143,6 @@ services:
     volumes:
       - ./orchestrate/matatika/elastic-search/config/instances-dev.yml:/usr/share/elasticsearch/config/instances.yml
       - es-certs:/certs
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.17.3
-    restart: always
-    expose:
-      - "5000"
-    ports:
-      - "5000:5000"
-      ## these ports enable send of our local syslog events to logstash (useful for debugging)
-      # nc localhost 514 < /var/log/syslog
-      - "514:5000"
-      - "514:5000/udp"
-    environment:
-      - ELASTICSEARCH_HOSTS=https://search:9200
-      - MATATIKA_ES_ELASTIC_PASSWORD=${MATATIKA_ES_ELASTIC_PASSWORD:-ChangeMe}
-    volumes:
-      # Mount local config directory to detect logstash grok changes dynamically
-      - ./orchestrate/matatika/elastic-logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./orchestrate/matatika/elastic-logstash/pipeline:/usr/share/logstash/pipeline
-      - es-certs:/etc/certs
-    depends_on:
-      search-setup:
-        condition: service_completed_successfully
-      search:
-        condition: service_healthy
 
   db:
     image: postgres:11
