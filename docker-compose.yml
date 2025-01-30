@@ -66,13 +66,13 @@ services:
       - plugins:/local-plugins
 
   search:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
       - ELASTIC_PASSWORD=${MATATIKA_ES_ELASTIC_PASSWORD:-ChangeMe}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - node.name=search
-      - discovery.seed_hosts=
+      - discovery.seed_hosts=['search']
       - cluster.initial_master_nodes=search
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certs/search/search.key
       - xpack.security.http.ssl.certificate=/usr/share/elasticsearch/config/certs/search/search.crt
@@ -100,7 +100,7 @@ services:
 
   # Short lived container that sets up elastic search
   search-setup:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
       - ES_PATH_CONF=/usr/share/elasticsearch/config
@@ -122,20 +122,24 @@ services:
 
   # Short lived container that creates the certificates
   search-createcerts:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
     environment:
       - ES_HOME=/usr/share/elasticsearch
     command: >
       bash -c '
         #!/bin/bash
         rm -fR /certs/*
+        # create CA and certs for clients
+        elasticsearch-certutil ca --silent --pem --pass "" --out /certs/ca.zip;
+        unzip /certs/ca.zip -d /certs;
         elasticsearch-certutil cert \
           --silent \
+          --ca-cert /certs/ca/ca.crt \
+          --ca-key /certs/ca/ca.key \
           --pem \
           --in config/instances.yml \
-          -out /certs/bundle.zip;
+          --out /certs/bundle.zip;
         unzip /certs/bundle.zip -d /certs;
-        # create CA for clients to verify certificates
         chown -R 1000:0 /certs
       '
     user: "0"
