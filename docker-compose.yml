@@ -72,7 +72,8 @@ services:
       - ELASTIC_PASSWORD=${MATATIKA_ES_ELASTIC_PASSWORD:-ChangeMe}
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - node.name=search
-      - discovery.seed_hosts=['search']
+      # 'discovery.seed_hosts' not required in single node cluster
+      #- discovery.seed_hosts=['search']
       - cluster.initial_master_nodes=search
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certs/search/search.key
       - xpack.security.http.ssl.certificate=/usr/share/elasticsearch/config/certs/search/search.crt
