@@ -77,10 +77,10 @@ services:
       - cluster.initial_master_nodes=search
       - xpack.security.http.ssl.key=/usr/share/elasticsearch/config/certs/search/search.key
       - xpack.security.http.ssl.certificate=/usr/share/elasticsearch/config/certs/search/search.crt
-      - xpack.security.http.ssl.certificate_authorities=/usr/share/elasticsearch/config/certs/ca/ca.crt
+      - xpack.security.http.ssl.certificate_authorities=/usr/share/elasticsearch/config/certs/ca.crt
       - xpack.security.transport.ssl.key=/usr/share/elasticsearch/config/certs/search/search.key
       - xpack.security.transport.ssl.certificate=/usr/share/elasticsearch/config/certs/search/search.crt
-      - xpack.security.transport.ssl.certificate_authorities=/usr/share/elasticsearch/config/certs/ca/ca.crt
+      - xpack.security.transport.ssl.certificate_authorities=/usr/share/elasticsearch/config/certs/ca.crt
     volumes:
       - ./orchestrate/matatika/elastic-search/config/elasticsearch-docker.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - es-certs:/usr/share/elasticsearch/config/certs
@@ -90,7 +90,7 @@ services:
     ports:
       - "9200:9200"
     healthcheck:
-      test: curl -fs -u elastic:"$$ELASTIC_PASSWORD" --cacert config/certs/ca/ca.crt https://localhost:9200 > /dev/null
+      test: curl -fs -u elastic:"$$ELASTIC_PASSWORD" --cacert config/certs/ca.crt https://localhost:9200 > /dev/null
       interval: 10s
       timeout: 10s
       start_period: 60s
@@ -109,8 +109,11 @@ services:
       - MATATIKA_ES_ELASTIC_PASSWORD=${MATATIKA_ES_ELASTIC_PASSWORD:-ChangeMe}
     command: >
       bash -c '
-        ls -al /usr/share/elasticsearch/config/certs
-        . config/setup.sh
+        cp /usr/share/elasticsearch/config/setup.sh /tmp/setup.sh
+        cp /usr/share/elasticsearch/config/*.json /tmp/
+        chmod +x /tmp/setup.sh
+        # run setup to configure indexes
+        /tmp/setup.sh
       '
     user: "0"
     working_dir: /usr/share/elasticsearch
@@ -132,11 +135,12 @@ services:
         rm -fR /certs/*
         # create CA and certs for clients
         elasticsearch-certutil ca --silent --pem --pass "" --out /certs/ca.zip;
-        unzip /certs/ca.zip -d /certs;
+        unzip -p /certs/ca.zip ca/ca.crt > /certs/ca.crt;
+        unzip -p /certs/ca.zip ca/ca.key > /certs/ca.key;
         elasticsearch-certutil cert \
           --silent \
-          --ca-cert /certs/ca/ca.crt \
-          --ca-key /certs/ca/ca.key \
+          --ca-cert /certs/ca.crt \
+          --ca-key /certs/ca.key \
           --pem \
           --in config/instances.yml \
           --out /certs/bundle.zip;
