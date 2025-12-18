@@ -4,7 +4,7 @@ Maintained by: [Matatika](https://www.matatika.com/)
 
 [Documentation](https://www.matatika.com/docs/) and [API reference](https://www.matatika.com/docs/api/)
 
-Where to get help: the [Matatika Community Slack](https://join.slack.com/t/matatika/shared_invite/zt-19n1bfokx-F31DNitTpSxWCFO2aFlgxg)
+Where to get help: the [Community Slack](https://meltano.com/slack)
 
 
 ## What is Matatika Community Edition?
